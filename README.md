@@ -2,4 +2,4 @@
 
 a kd tree written in coffeescript / javascript
 
-[![Build Status](https://travis-ci.org/bwiklund/kdtree.js.github)](https://travis-ci.org/bwiklund/kdtree.js)
+[![Build Status](https://travis-ci.org/bwiklund/kdtree.js.png)](https://travis-ci.org/bwiklund/kdtree.js)
