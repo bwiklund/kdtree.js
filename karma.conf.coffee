@@ -17,6 +17,7 @@ module.exports = (config) ->
     files: [
       "src/**/*.coffee"
       "test/**/*Spec.coffee"
+      "node_modules/lodash/lodash.js"
     ]
     
     exclude: []

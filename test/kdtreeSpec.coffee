@@ -39,9 +39,13 @@ describe "kdtree", ->
     
     expect( k.findInBounds( [0,0],[1,1] ) ).toEqual []
 
-    k.add [0,0]
-    k.add [1,0]
-    k.add [1,1]
-    k.add [2,-1]
+    points = [[0,0],[1,0],[1,1],[2,-1]]
+    k.add p for p in points
 
-    expect( k.findInBounds( [0,0],[1,1] ) ).toEqual [0,0],[1,0],[1,1]
+    correct = points[0...3]
+    result = k.findInBounds [0,0],[1,1]
+
+    intersection = _.intersection result, correct
+
+    expect( intersection.length ).toEqual 3
+
