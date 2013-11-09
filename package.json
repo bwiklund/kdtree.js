@@ -1,5 +1,5 @@
 {
-  "name": "kdtree",
+  "name": "kdtree.js",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
@@ -18,9 +18,11 @@
     "karma-requirejs": "~0.1.0",
     "karma-coffee-preprocessor": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
-    "karma": "~0.10.4"
-  },
-  "dependencies": {
+    "karma": "~0.10.4",
     "lodash": "~2.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/bwiklund/kdtree.js.git"
   }
 }
