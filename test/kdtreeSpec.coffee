@@ -47,19 +47,30 @@ describe "kdtree", ->
 
     intersection = _.intersection found, correct
 
+    expect( found.length ).toBe correct.length
     expect( intersection.length ).toEqual 3
   
 
-  it "can findInBounds in 3d (fuzz test)", ->
-    k = new KDTree 3
-    points = ( [Math.random(),Math.random(),Math.random()] for i in [0...10000] )
-    k.add p for p in points
-    
-    found = k.findInBounds [0.25,0.25,0.25],[0.75,0.75,0.75]
-    
-    # brute force to get correct result
-    correct = points.filter (p) -> 
-      ( 0.25 <= p[0] <= 0.75 ) && ( 0.25 <= p[1] <= 0.75 ) && ( 0.75 < p[2] <= 0.75 )
+  it "can findInBounds in different dimensions (fuzz test)", ->
 
-    expect( _.intersection( correct, found ).length ).toBe correct.length
+    for dim in [1...8]
+      k = new KDTree dim
+      points = for i in [0...1000]
+        Math.random() for j in [0...dim]
+
+      k.add p for p in points
+      
+      c1 = ( 0.25 for i in [0...dim] )
+      c2 = ( 0.75 for i in [0...dim] )
+
+      found = k.findInBounds c1, c2
+      
+      # brute force to get correct result
+      correct = points.filter (p) ->
+        for component in p
+          if !(0.25 <= component <= 0.75) then return false
+        true
+      
+      expect( found.length ).toBe correct.length
+      expect( _.intersection( correct, found ).length ).toBe correct.length
 
