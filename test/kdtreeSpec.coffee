@@ -53,10 +53,15 @@ describe "kdtree", ->
 
   it "can findInBounds in different dimensions (fuzz test)", ->
 
+    startTime = new Date()
+    
+    # using a set random seed makes it more stable to benchmark
+    chance = new Chance 19850619
+
     for dim in [1...8]
       k = new KDTree dim
-      points = for i in [0...1000]
-        Math.random() for j in [0...dim]
+      points = for i in [0...2000]
+        chance.random() for j in [0...dim]
 
       k.add p for p in points
       
@@ -73,4 +78,7 @@ describe "kdtree", ->
       
       expect( found.length ).toBe correct.length
       expect( _.intersection( correct, found ).length ).toBe correct.length
+    
+    stopTime = new Date()
 
+    console.log( "ran fuzz test in #{(stopTime-startTime).toFixed()} ms" )
