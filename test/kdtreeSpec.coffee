@@ -43,9 +43,23 @@ describe "kdtree", ->
     k.add p for p in points
 
     correct = points[0...3]
-    result = k.findInBounds [0,0],[1,1]
+    found = k.findInBounds [0,0],[1,1]
 
-    intersection = _.intersection result, correct
+    intersection = _.intersection found, correct
 
     expect( intersection.length ).toEqual 3
+  
+
+  it "can findInBounds in 3d (fuzz test)", ->
+    k = new KDTree 3
+    points = ( [Math.random(),Math.random(),Math.random()] for i in [0...10000] )
+    k.add p for p in points
+    
+    found = k.findInBounds [0.25,0.25,0.25],[0.75,0.75,0.75]
+    
+    # brute force to get correct result
+    correct = points.filter (p) -> 
+      ( 0.25 <= p[0] <= 0.75 ) && ( 0.25 <= p[1] <= 0.75 ) && ( 0.75 < p[2] <= 0.75 )
+
+    expect( _.intersection( correct, found ).length ).toBe correct.length
 
