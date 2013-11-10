@@ -58,26 +58,44 @@ describe "kdtree", ->
     # using a set random seed makes it more stable to benchmark
     chance = new Chance 19850619
 
-    for dim in [1...8]
+    bench = (label,benchResults,fn) ->
+      start = new Date
+      rval = fn()
+      stop = new Date
+      benchResults.push label + " " + (stop-start)
+      rval
+
+    for dim in [1..8]
+
+      benchResults = []
+      
       k = new KDTree dim
-      points = for i in [0...2000]
-        chance.random() for j in [0...dim]
 
-      k.add p for p in points
-      
-      c1 = ( 0.25 for i in [0...dim] )
-      c2 = ( 0.75 for i in [0...dim] )
+      points = bench "point creation", benchResults, ->
+        for i in [0...10000]
+          chance.random() for j in [0...dim]
 
-      found = k.findInBounds c1, c2
+      bench "filling kdtree", benchResults, ->
+        k.add p for p in points
       
+      c1 = ( 0.45 for i in [0...dim] )
+      c2 = ( 0.55 for i in [0...dim] )
+      
+      found = bench "kdfind", benchResults, ->
+        k.findInBounds c1, c2
+
       # brute force to get correct result
-      correct = points.filter (p) ->
-        for component in p
-          if !(0.25 <= component <= 0.75) then return false
-        true
+      correct = bench "brute", benchResults, ->
+        points.filter (p) ->
+          for component in p
+            if !(0.45 <= component <= 0.55) then return false
+          true
       
-      expect( found.length ).toBe correct.length
-      expect( _.intersection( correct, found ).length ).toBe correct.length
+      bench "validation", benchResults, ->
+        expect( found.length ).toBe correct.length
+        expect( _.intersection( correct, found ).length ).toBe correct.length
+
+      console.log "k = #{dim} | " + benchResults.join " | "
     
     stopTime = new Date()
 
