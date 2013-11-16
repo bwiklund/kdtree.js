@@ -65,14 +65,14 @@ describe "kdtree", ->
       benchResults.push label + " " + (stop-start)
       rval
 
-    for dim in [3..3]
+    for dim in [1..5]
 
       benchResults = []
       
       k = new KDTree dim
 
       points = bench "point creation", benchResults, ->
-        for i in [0...100000]
+        for i in [0...1000]
           chance.random() for j in [0...dim]
 
       bench "filling kdtree", benchResults, ->
