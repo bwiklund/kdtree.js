@@ -6,13 +6,8 @@ module.exports = (config) ->
     frameworks: ["jasmine"]
 
     preprocessors:
-      "src/**/*.coffee": ["coffee"]
+      "src/**/*.coffee": ["coverage"]
       "test/**/*.coffee": ["coffee"]
-
-    coffeePreprocessor:
-      options:
-        bare: false
-        sourceMap: false
 
     files: [
       "src/**/*.coffee"
@@ -23,7 +18,11 @@ module.exports = (config) ->
     
     exclude: []
     
-    reporters: ["progress"]
+    reporters: ["progress","coverage"]
+
+    coverageReporter:
+      type: 'html'
+      dir: 'coverage'
     
     port: 9876
     
