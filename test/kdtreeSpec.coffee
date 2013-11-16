@@ -65,14 +65,14 @@ describe "kdtree", ->
       benchResults.push label + " " + (stop-start)
       rval
 
-    for dim in [1..8]
+    for dim in [3..3]
 
       benchResults = []
       
       k = new KDTree dim
 
       points = bench "point creation", benchResults, ->
-        for i in [0...10000]
+        for i in [0...100000]
           chance.random() for j in [0...dim]
 
       bench "filling kdtree", benchResults, ->
@@ -91,10 +91,6 @@ describe "kdtree", ->
             if !(0.45 <= component <= 0.55) then return false
           true
       
-      bench "validation", benchResults, ->
-        expect( found.length ).toBe correct.length
-        expect( _.intersection( correct, found ).length ).toBe correct.length
-
       console.log "k = #{dim} | " + benchResults.join " | "
     
     stopTime = new Date()
