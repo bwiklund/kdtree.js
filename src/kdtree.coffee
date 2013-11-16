@@ -33,7 +33,7 @@ class KDTreeNode
       @right?.findInBounds dim, depth+1, accum, c1, c2
     
     outOfBounds = false
-    for n in [0...dim]
+    for n in [0...dim] by 1
       if c1[n] > @value[n] || c2[n] < @value[n]
         outOfBounds = true
         break
